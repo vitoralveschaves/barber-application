@@ -43,4 +43,17 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .title-separator {
+    @apply text-sm font-bold uppercase text-gray-400 md:text-xl md:text-white;
+  }
 }

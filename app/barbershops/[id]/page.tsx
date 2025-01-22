@@ -1,4 +1,4 @@
-import { db } from "@/app/_lib/prisma";
+import { prisma } from "@/app/_lib/prisma";
 import BarbershopInfo from "./_components/barbershop-info";
 import ServiceItem from "./_components/service-item";
 
@@ -14,7 +14,7 @@ const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
     return null
   }
 
-  const barbershop = await db.barbershop.findUnique({
+  const barbershop = await prisma.barbershop.findUnique({
     where: {
       id: params.id
     },

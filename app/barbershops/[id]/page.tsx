@@ -1,6 +1,7 @@
 import { prisma } from "@/app/_lib/prisma";
 import BarbershopInfo from "./_components/barbershop-info";
 import ServiceItem from "./_components/service-item";
+import { auth } from "@/app/_lib/auth";
 
 interface BarbershopDetailsProps {
   params: {
@@ -9,6 +10,8 @@ interface BarbershopDetailsProps {
 }
 
 const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
+
+  const session = await auth();
 
   if (!params.id) {
     return null
@@ -33,7 +36,7 @@ const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
 
       <div className="px-5 py-6 flex flex-col gap-4">
         {barbershop.services.map((service) => (
-          <ServiceItem key={service.id} service={service} />
+          <ServiceItem key={service.id} service={service} isAuthenticated={!!session?.user} />
         ))}
       </div>
     </div>

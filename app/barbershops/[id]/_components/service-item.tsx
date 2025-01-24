@@ -4,17 +4,18 @@ import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/app/_components/ui/sheet";
-import { Barbershop, Service } from "@prisma/client";
-import { ptBR, se } from "date-fns/locale";
+import { Barbershop, Booking, Service } from "@prisma/client";
+import { ptBR } from "date-fns/locale";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { use, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { generateDayTimeList } from "../_helpers/hours";
 import { format, setHours, setMinutes } from "date-fns";
 import { saveBooking } from "../_actions/save-booking";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getDayBooking } from "../_actions/get-day-bookings";
 
 interface ServiceItemProps {
   service: Service,
@@ -27,9 +28,19 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
   const [hour, setHour] = useState<string | undefined>()
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
+  const [dayBookings, setDayBookings] = useState<Booking[]>([])
 
   const { data } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!date) return
+    const refleshAvaliableBookings = async () => {
+      const bookingsDay = await getDayBooking(barbershop.id, date)
+      setDayBookings(bookingsDay)
+    }
+    refleshAvaliableBookings()
+  }, [date, barbershop.id]);
 
   const handleDateClick = (date: Date | undefined) => {
     setDate(date)
@@ -41,8 +52,26 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
   }
 
   const timeList = useMemo(() => {
-    return date ? generateDayTimeList(date) : []
-  }, [date])
+    if (!date) return []
+
+    return generateDayTimeList(date).filter((time) => {
+      const dateHour = Number(time.split(":")[0])
+      const dateMinutes = Number(time.split(":")[1])
+
+      const bookings = dayBookings.find(booking => {
+        const bookingHour = booking.date.getHours();
+        const bookingMinutes = booking.date.getMinutes();
+
+        return bookingHour === dateHour && bookingMinutes === dateMinutes
+      })
+
+      if (!bookings) return true
+
+      return false
+
+    })
+
+  }, [date, dayBookings])
 
   const handleBookingClick = async () => {
     if (!isAuthenticated) {

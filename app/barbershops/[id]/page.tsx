@@ -42,5 +42,4 @@ const BarbershopDetails = async ({ params }: BarbershopDetailsProps) => {
     </div>
   )
 }
-
 export default BarbershopDetails;

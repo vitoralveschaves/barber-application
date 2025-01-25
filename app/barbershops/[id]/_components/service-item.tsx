@@ -57,20 +57,14 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
     return generateDayTimeList(date).filter((time) => {
       const dateHour = Number(time.split(":")[0])
       const dateMinutes = Number(time.split(":")[1])
-
       const bookings = dayBookings.find(booking => {
         const bookingHour = booking.date.getHours();
         const bookingMinutes = booking.date.getMinutes();
-
         return bookingHour === dateHour && bookingMinutes === dateMinutes
       })
-
       if (!bookings) return true
-
       return false
-
     })
-
   }, [date, dayBookings])
 
   const handleBookingClick = async () => {
@@ -116,17 +110,28 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
       <CardContent className="p-3 w-full">
         <div className="flex gap-4 items-center w-full">
           <div className="relative min-h-[110px] min-w-[110px] max-h-[110px] max-w-[110px]">
-            <Image src={service.imageUrl} alt={service.name} fill style={{ objectFit: "contain" }} className="opacity-75 rounded-lg" />
+            <Image
+              src={service.imageUrl}
+              alt={service.name}
+              fill
+              style={{ objectFit: "contain" }}
+              className="opacity-75 rounded-lg"
+            />
           </div>
           <div className="flex flex-col w-full">
             <h2 className="font-bold">{service.name}</h2>
             <p className="text-sm text-gray-400">{service.description}</p>
-
             <div className="flex items-center justify-between mt-3">
-              <p className="text-primary text-sm font-bold">{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(service.price))}</p>
+              <p className="text-primary text-sm font-bold">
+                {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(service.price))}
+              </p>
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTrigger asChild>
-                  <Button variant={'secondary'} onClick={handleBookingClick}>Reservar</Button>
+                  <Button
+                    variant={'secondary'}
+                    onClick={handleBookingClick}>
+                    Reservar
+                  </Button>
                 </SheetTrigger>
                 <SheetContent className="p-0 w-full flex flex-col justify-between">
                   <div>
@@ -164,31 +169,37 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                           }
                         }}
                       />
-
                     </div>
                     {date && (
-                      <div className="py-6 px-5 gap-3 border-t border-solid border-secondary flex overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                      <div className="py-6 px-5 gap-3 border-t border-solid border-secondary flex overflow-x-auto no-scrollbar">
                         {timeList.map((time) => (
-                          <Button onClick={() => handleHourClick(time)} key={time} variant={hour === time ? "default" : "outline"} className="rounded-full">{time}</Button>
+                          <Button
+                            onClick={() => handleHourClick(time)}
+                            key={time}
+                            variant={hour === time ? "default" : "outline"}
+                            className="rounded-full">
+                            {time}
+                          </Button>
                         ))}
                       </div>
                     )}
-
                     <div className="py-6 px-5 border-t border-solid border-secondary">
                       <Card>
                         <CardContent className="p-3 flex flex-col gap-3">
                           <div className="flex justify-between">
                             <h2 className="font-bold">{service.name}</h2>
-                            <h3 className="font-bold text-sm">{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(service.price))}</h3>
+                            <h3 className="font-bold text-sm">
+                              {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(service.price))}
+                            </h3>
                           </div>
-
                           {date && (
                             <div className="flex justify-between">
                               <h3 className="text-gray-400">Data</h3>
-                              <h4 className="text-sm text-gray-400">{format(date, "dd 'de' MMMM", { locale: ptBR })}</h4>
+                              <h4 className="text-sm text-gray-400">
+                                {format(date, "dd 'de' MMMM", { locale: ptBR })}
+                              </h4>
                             </div>
                           )}
-
                           {hour && (
                             <div className="flex justify-between">
                               <h3 className="text-gray-400">Horário</h3>

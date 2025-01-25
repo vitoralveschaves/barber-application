@@ -1,14 +1,27 @@
-import { format } from "date-fns";
+import { format, isFuture } from "date-fns";
 import Header from "../_components/header";
 import { ptBR } from "date-fns/locale";
 import Search from "./_components/search";
 import BookingItem from "../_components/booking-item";
 import { prisma } from "../_lib/prisma";
 import BarberShopItem from "./_components/barbershop-item";
+import { auth } from "../_lib/auth";
 
 export default async function Home() {
 
+  const session = await auth();
+
   const barbershops = await prisma.barbershop.findMany({});
+
+  const bookings = session?.user ? await prisma.booking.findMany({
+    where: {
+      userId: (session.user as any).id
+    },
+    include: {
+      service: true,
+      barbershop: true
+    }
+  }) : []
 
   return (
     <div>
@@ -25,9 +38,13 @@ export default async function Home() {
         <Search />
       </div>
 
-      <div className="px-5 mt-6">
-        <h2 className="text-sm mb-3 font-semibold text-gray-400">Agendamentos</h2>
-        <BookingItem />
+      <div className="mt-6">
+        <h2 className="text-sm mb-3 font-semibold text-gray-400 pl-5">Agendamentos</h2>
+        <div className="flex gap-3 overflow-x-auto no-scrollbar px-5">
+          {bookings.filter(booking => isFuture(booking.date)).map(booking => (
+            <BookingItem key={booking.id} booking={booking} />
+          ))}
+        </div>
       </div>
 
       <div className="mt-6">

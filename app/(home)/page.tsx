@@ -38,14 +38,16 @@ export default async function Home() {
         <Search />
       </div>
 
-      <div className="mt-6">
-        <h2 className="text-sm mb-3 font-semibold text-gray-400 pl-5">Agendamentos</h2>
-        <div className="flex gap-3 overflow-x-auto no-scrollbar px-5">
-          {bookings.filter(booking => isFuture(booking.date)).map(booking => (
-            <BookingItem key={booking.id} booking={booking} />
-          ))}
+      {bookings.filter(booking => isFuture(booking.date)).length > 0 &&
+        <div className="mt-6">
+          <h2 className="text-sm mb-3 font-semibold text-gray-400 pl-5">Agendamentos</h2>
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-5">
+            {bookings.filter(booking => isFuture(booking.date)).map(booking => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
         </div>
-      </div>
+      }
 
       <div className="mt-6">
         <h2 className="px-5 text-sm mb-3 font-semibold text-gray-400">Recomendados</h2>

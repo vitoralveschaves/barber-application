@@ -13,6 +13,7 @@ import { cancelBooking } from "../_actions/cancel-booking";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -123,14 +124,35 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             <SheetClose asChild>
               <Button variant={"secondary"} className="w-full">Voltar</Button>
             </SheetClose>
-            <Button
-              onClick={handleCancelBooking}
-              disabled={isPast(booking.date) || isDeleteLoading}
-              variant={"destructive"}
-              className="w-full">
-              {isDeleteLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
-              Cancelar reserva
-            </Button>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  disabled={isPast(booking.date) || isDeleteLoading}
+                  variant={"destructive"}
+                  className="w-full">
+                  Cancelar reserva
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="w-[90%]">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Cancelar reserva</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Tem certeza que deseja cancelar essa reserva?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex-row gap-3">
+                  <AlertDialogCancel className="w-full mt-0">Voltar</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isDeleteLoading}
+                    onClick={handleCancelBooking}
+                    className="w-full">
+                    {isDeleteLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
+                    Confirmar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </SheetFooter>
         </div>
       </SheetContent>

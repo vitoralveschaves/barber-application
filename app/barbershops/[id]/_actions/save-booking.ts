@@ -18,5 +18,6 @@ export const saveBooking = async (params: SaveBookingParams) => {
       date: params.date,
     },
   });
+  revalidatePath("/");
   revalidatePath("/bookings");
 };

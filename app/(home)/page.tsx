@@ -53,7 +53,9 @@ export default async function Home() {
         <h2 className="px-5 text-sm mb-3 font-semibold text-gray-400">Recomendados</h2>
         <div className="flex px-5 overflow-x-scroll gap-4 no-scrollbar">
           {barbershops.map((barbershop) => (
-            <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+            <div key={barbershop.id} className="min-w-[167px] max-w-[167px]">
+              <BarberShopItem barbershop={barbershop} />
+            </div>
           ))}
         </div>
       </div>
@@ -63,7 +65,9 @@ export default async function Home() {
         <h2 className="px-5 text-sm mb-3 font-semibold text-gray-400">Populares</h2>
         <div className="flex px-5 overflow-x-scroll gap-4 no-scrollbar">
           {barbershops.map((barbershop) => (
-            <BarberShopItem key={barbershop.id} barbershop={barbershop} />
+            <div key={barbershop.id} className="min-w-[167px] max-w-[167px]">
+              <BarberShopItem barbershop={barbershop} />
+            </div>
           ))}
         </div>
       </div>

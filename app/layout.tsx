@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "./_components/footer";
 import { SessionProvider } from "next-auth/react"
 import { Toaster } from "@/app/_components/ui/sonner"
+import Header from "./_components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,8 @@ export default function RootLayout({
       <body className={`${inter.className} dark`}>
         <SessionProvider>
           <div className="flex flex-col min-h-screen">
-            <div className="flex-1">
+            <Header />
+            <div className="flex-1 md:flex">
               {children}
             </div>
             <Toaster />

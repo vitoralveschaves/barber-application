@@ -11,7 +11,7 @@ import { z } from "zod"
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  search: z.string({ required_error: "Campo obrigatório" }).trim().min(1, "Campo obrigatório"),
+  search: z.string().trim().optional(),
 })
 
 interface SearchProps {

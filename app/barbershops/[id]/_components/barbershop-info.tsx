@@ -13,43 +13,24 @@ interface BarbershopInfoProps {
 }
 
 const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
-
-  const route = useRouter();
-
-  const handleBackClick = () => {
-    route.replace("/");
-  }
-
   return (
-    <div>
-      <div className="h-[250px] w-full relative">
-        <Button onClick={handleBackClick} size={"icon"} variant={"outline"} className="z-50 absolute top-4 left-4">
-          <ChevronLeftIcon />
-        </Button>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button size={"icon"} variant={"outline"} className="z-50 absolute top-4 right-4">
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="p-0">
-            <SideMenu />
-          </SheetContent>
-        </Sheet>
-
-        <Image src={barbershop.imageUrl} alt={barbershop.name} fill style={{ objectFit: "cover" }} className="opacity-75" />
+    <div className="md:w-full">
+      <div className="h-[250px] w-full md:h-[400px] relative">
+        <Image src={barbershop.imageUrl} alt={barbershop.name} fill style={{ objectFit: "cover" }} className="opacity-75 md:rounded-lg" />
       </div>
 
-      <div className="px-5 pt-3 pb-6 border-b border-solid border-secondary">
-        <h1 className="text-xl font-bold">{barbershop.name}</h1>
-        <div className="flex items-center gap-1 mt-3">
-          <MapPinIcon className="text-primary" />
-          <p className="text-sm">{barbershop.address}</p>
-        </div>
+      <div className="px-5 md:px-0 pt-3 pb-6 border-b border-solid border-secondary">
+        <h1 className="text-xl md:text-3xl font-bold">{barbershop.name}</h1>
+        <div className="md:flex md:flex-row md:justify-between md:pt-1">
+          <div className="flex items-center gap-1 mt-3">
+            <MapPinIcon className="text-primary" />
+            <p className="text-sm">{barbershop.address}</p>
+          </div>
 
-        <div className="flex items-center gap-1 mt-3">
-          <StarIcon className="text-primary" />
-          <p className="text-sm">5,0 (899 avaliações)</p>
+          <div className="flex items-center gap-1 mt-3">
+            <StarIcon className="text-primary" />
+            <p className="text-sm">5,0 (899 avaliações)</p>
+          </div>
         </div>
       </div>
 

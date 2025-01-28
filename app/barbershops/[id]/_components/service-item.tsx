@@ -134,39 +134,31 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                   </Button>
                 </SheetTrigger>
                 <SheetContent className="p-0 w-full flex flex-col justify-between">
-                  <div>
+                  <div className="md:w-full">
                     <SheetHeader className="text-left px-5 py-6 border-b border-solid border-secondary">
                       <SheetTitle>Fazer reserva</SheetTitle>
                     </SheetHeader>
-                    <div className="py-6">
+                    <div className="py-6 md:w-full">
                       <Calendar
                         mode="single"
+                        className=""
                         selected={date}
                         onSelect={handleDateClick}
                         fromDate={addDays(new Date(), 1)}
                         locale={ptBR}
-                        styles={{
-                          head_cell: {
-                            width: "100%",
-                            textTransform: "capitalize"
-                          },
-                          cell: {
-                            width: "100%"
-                          },
-                          button: {
-                            width: "100%"
-                          },
-                          nav_button_previous: {
-                            width: "32px",
-                            height: "32px"
-                          },
-                          nav_button_next: {
-                            width: "32px",
-                            height: "32px"
-                          },
-                          caption: {
-                            textTransform: "capitalize"
-                          }
+                        classNames={{
+                          root: "w-full !py-0",
+                          cell: "w-full h-7",
+                          day: "w-full h-full rounded-full",
+                          caption: "flex items-center px-2 justify-between",
+                          caption_label: "font-bold",
+                          caption_start: "w-full",
+                          caption_end: "w-full",
+                          head_cell: "w-full font-normal",
+                          nav_button_next: "order-1 bg-zinc-800",
+                          nav_button_previous: "order-1 bg-zinc-800 disabled:bg-zinc-950",
+                          nav: "space-x-3",
+                          day_selected: "bg-primary text-primary-foreground",
                         }}
                       />
                     </div>
@@ -216,7 +208,7 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                     </div>
                   </div>
                   <SheetFooter className="px-5 py-6">
-                    <Button disabled={!date || !hour || submitIsLoading} onClick={handleBookingSubmit}>
+                    <Button disabled={!date || !hour || submitIsLoading} onClick={handleBookingSubmit} className="w-full">
                       {submitIsLoading && (
                         <Loader2 className="animate-spin" />
                       )}
